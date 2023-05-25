@@ -5,6 +5,7 @@ import styles from "./ModalUpdateItem.module.scss";
 import classNames from "classnames";
 import moment from "moment";
 import TrashIcon from "./trash.svg";
+import { Modal } from "../Modal";
 
 interface Props {
 	item: Item;
@@ -30,45 +31,33 @@ export const ModalUpdateItem: React.FC<Props> = ({
 	const dateEnd = moment(item.end).format("MM/DD/YYYY HH:mm");
 
 	return (
-		<div
-			className={classNames(styles.modal)}
-			onClick={() => {
-				cancel();
-			}}
-		>
-			<div
-				className={styles.content}
-				onClick={(e) => {
-					e.stopPropagation();
-				}}
-			>
-				<button className={styles.remove} onClick={() => remove()}>
-					<Image alt="remove" src={TrashIcon} width={20} height={20} />
-				</button>
+		<Modal cancel={cancel}>
+			<button className={styles.remove} onClick={() => remove()}>
+				<Image alt="remove" src={TrashIcon} width={20} height={20} />
+			</button>
 
-				<div className={styles.fields}>
-					<input className={styles.id} type="text" value={item.id} disabled />
-					<div className={styles.date}>
-						<input type="text" value={dateStart} disabled />
-						<input type="text" value={dateEnd} disabled />
-					</div>
-					<input
-						className={styles.title}
-						type="text"
-						value={title}
-						onChange={(e) => setTitle(e.target.value)}
-					/>
-
-					<button
-						disabled={!title}
-						onClick={() => {
-							update(title);
-						}}
-					>
-						Update
-					</button>
+			<div className={styles.fields}>
+				<input className={styles.id} type="text" value={item.id} disabled />
+				<div className={styles.date}>
+					<input type="text" value={dateStart} disabled />
+					<input type="text" value={dateEnd} disabled />
 				</div>
+				<input
+					className={styles.title}
+					type="text"
+					value={title}
+					onChange={(e) => setTitle(e.target.value)}
+				/>
+
+				<button
+					disabled={!title}
+					onClick={() => {
+						update(title);
+					}}
+				>
+					Update
+				</button>
 			</div>
-		</div>
+		</Modal>
 	);
 };

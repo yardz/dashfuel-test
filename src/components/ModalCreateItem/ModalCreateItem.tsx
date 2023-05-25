@@ -1,9 +1,9 @@
 import { Item } from "@src/services/generateFakeData";
-import classNames from "classnames";
 import moment from "moment";
 import React, { useState } from "react";
 import { Id } from "react-calendar-timeline";
 import { v4 as uuidv4 } from "uuid";
+import { Modal } from "../Modal";
 import styles from "./ModalCreateItem.module.scss";
 
 interface Props {
@@ -37,71 +37,59 @@ export const ModalCreateItem: React.FC<Props> = ({
 	const dateStart = moment(time).format("MM/DD/YYYY HH:mm");
 
 	return (
-		<div
-			className={classNames(styles.modal)}
-			onClick={() => {
-				cancel();
-			}}
-		>
-			<div
-				className={styles.content}
-				onClick={(e) => {
-					e.stopPropagation();
-				}}
-			>
-				<div className={styles.fields}>
-					<div className={styles.date}>
-						<input type="text" value={dateStart} disabled />
-						<select
-							value={duration}
-							onChange={(e) => setDuration(parseInt(e.target.value))}
-						>
-							{durations.map((d) => (
-								<option key={d.label} value={d.value}>
-									{d.label}
-								</option>
-							))}
-						</select>
-					</div>
-					<input
-						className={styles.title}
-						type="text"
-						value={title}
-						placeholder="Title"
-						onChange={(e) => setTitle(e.target.value)}
-					/>
-					<input
-						className={styles.title}
-						type="text"
-						placeholder="Tip"
-						value={tip}
-						onChange={(e) => setTip(e.target.value)}
-					/>
-
-					<button
-						disabled={!title || !tip}
-						onClick={() => {
-							const item: Item = {
-								id: uuidv4(),
-								group: groupId,
-								title,
-								start: time,
-								end: time + duration,
-								className:
-									moment(time).day() === 6 || moment(time).day() === 0
-										? "item-weekend"
-										: "",
-								itemProps: {
-									"data-tip": tip,
-								},
-							};
-							create(item);
-						}}
+		<Modal cancel={cancel}>
+			<div className={styles.fields}>
+				<div className={styles.date}>
+					<input type="text" value={dateStart} disabled />
+					<select
+						value={duration}
+						onChange={(e) => setDuration(parseInt(e.target.value))}
 					>
-						Create New Item
-					</button>
+						{durations.map((d) => (
+							<option key={d.label} value={d.value}>
+								{d.label}
+							</option>
+						))}
+					</select>
 				</div>
+				<input
+					className={styles.title}
+					type="text"
+					value={title}
+					placeholder="Title"
+					onChange={(e) => setTitle(e.target.value)}
+				/>
+				<input
+					className={styles.title}
+					type="text"
+					placeholder="Tip"
+					value={tip}
+					onChange={(e) => setTip(e.target.value)}
+				/>
+
+				<button
+					disabled={!title || !tip}
+					onClick={() => {
+						const item: Item = {
+							id: uuidv4(),
+							group: groupId,
+							title,
+							start: time,
+							end: time + duration,
+							className:
+								moment(time).day() === 6 || moment(time).day() === 0
+									? "item-weekend"
+									: "",
+							itemProps: {
+								"data-tip": tip,
+							},
+						};
+						create(item);
+					}}
+				>
+					Create New Item
+				</button>
 			</div>
-		</div>
+		</Modal>
 	);
 };
