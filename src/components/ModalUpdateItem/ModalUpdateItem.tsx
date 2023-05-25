@@ -60,6 +60,7 @@ export const ModalUpdateItem: React.FC<Props> = ({
 					/>
 
 					<button
+						disabled={!title}
 						onClick={() => {
 							update(title);
 						}}

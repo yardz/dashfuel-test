@@ -1,10 +1,10 @@
 import { Item } from "@src/services/generateFakeData";
-import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import styles from "./ModalCreateItem.module.scss";
 import classNames from "classnames";
 import moment from "moment";
+import React, { useState } from "react";
 import { Id } from "react-calendar-timeline";
+import { v4 as uuidv4 } from "uuid";
+import styles from "./ModalCreateItem.module.scss";
 
 interface Props {
 	groupId: Id;
@@ -79,6 +79,7 @@ export const ModalCreateItem: React.FC<Props> = ({
 					/>
 
 					<button
+						disabled={!title || !tip}
 						onClick={() => {
 							const item: Item = {
 								id: uuidv4(),

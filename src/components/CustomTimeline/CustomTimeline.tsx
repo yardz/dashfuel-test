@@ -99,7 +99,6 @@ export const CustomTimeline: React.FC<Props> = () => {
 		);
 		setItems(updateItems);
 		setEditItem(undefined);
-
 		console.log("updateItem", itemId, title);
 	};
 
